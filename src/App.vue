@@ -1,14 +1,5 @@
 <script setup>
-import { useStore } from "vuex";
-
-import { computed } from "vue";
-import Toolbar from "./components/app/Toolbar.vue";
 import Leftnav from "./components/app/Leftnav.vue";
-
-const store = useStore();
-
-const start = () => store.commit("startup");
-start();
 </script>
 
 <template>

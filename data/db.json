@@ -1,0 +1,98 @@
+{
+  "users": [
+    {
+      "name": "Jane Doughnut",
+      "pfp": "img2",
+      "id": 222
+    },
+    {
+      "name": "Jeff Dona",
+      "pfp": "img3",
+      "id": 333
+    },
+    {
+      "name": "Jack Boys",
+      "pfp": "img1",
+      "id": 444
+    },
+    {
+      "name": "John Doe",
+      "pfp": "img5",
+      "id": 555
+    }
+  ],
+  "chats": [
+    {
+      "id": 111222,
+      "messages": [
+        {
+          "message": "hi",
+          "sender": 111
+        },
+        {
+          "message": "hey ya",
+          "sender": 222
+        },
+        {
+          "message": "are you coming over?",
+          "sender": 222
+        },
+        {
+          "message": "want me to?",
+          "sender": 111
+        }
+      ]
+    },
+    {
+      "id": 111333,
+      "messages": [
+        {
+          "message": "hi",
+          "sender": 111
+        },
+        {
+          "message": "hey",
+          "sender": 333
+        },
+        {
+          "message": "you there",
+          "sender": 111
+        }
+      ]
+    },
+    {
+      "id": 111555,
+      "messages": [
+        {
+          "message": "oboy",
+          "sender": 111
+        },
+        {
+          "message": "hello",
+          "sender": 111
+        },
+        {
+          "message": "hi every one, I'm so happy this is working ooo",
+          "sender": 111
+        }
+      ]
+    },
+    {
+      "id": 111444,
+      "messages": [
+        {
+          "message": "oboy",
+          "sender": 111
+        },
+        {
+          "message": "hwfar",
+          "sender": 444
+        },
+        {
+          "message": "I dey",
+          "sender": 111
+        }
+      ]
+    }
+  ]
+}

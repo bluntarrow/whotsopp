@@ -1,12 +1,14 @@
 <template>
   <main class="h-[100vh] flex flex-col">
-    <TopBar></TopBar>
-    <MessageList></MessageList>
+    <TopBar :key="$route.params.id"></TopBar>
+    <MessageList :key="$route.params.id"></MessageList>
+    <TextInput></TextInput>
   </main>
 </template>
 <script setup>
 import TopBar from '../components/chat/TopBar.vue'
 import MessageList from '../components/chat/MessageList.vue'
+import TextInput from '../components/chat/TextInput.vue'
 </script>
 <style>
 main {
