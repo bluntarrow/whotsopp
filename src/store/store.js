@@ -5,9 +5,14 @@ const store = createStore({
     return {
       users: [],
       messages: [],
+      info: false,
+      openedMessage: null,
     };
   },
   mutations: {
+    setOpenedMessage(state, user) {
+      state.openedMessage = user;
+    },
     setUsers(state, users) {
       state.users = users;
     },
@@ -17,12 +22,22 @@ const store = createStore({
     pushMessage(state, message) {
       state.messages.messages.push(message);
     },
+    toggleInfo(state, info) {
+      state.info = info;
+    },
   },
   actions: {
     fetchUsers({ commit }) {
       fetch("http://localhost:3001/users")
         .then((res) => res.json())
         .then((data) => commit("setUsers", data))
+        .catch((err) => console.log(err.message));
+    },
+
+    fetchOpenedMessage({ commit }, user) {
+      fetch(`http://localhost:3001/users/${user}`)
+        .then((res) => res.json())
+        .then((data) => commit("setOpenedMessage", data))
         .catch((err) => console.log(err.message));
     },
 

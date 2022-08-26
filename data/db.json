@@ -3,22 +3,26 @@
     {
       "name": "Jane Doughnut",
       "pfp": "img2",
-      "id": 222
+      "id": 222,
+      "about":"I am a Person"
     },
     {
       "name": "Jeff Dona",
       "pfp": "img3",
-      "id": 333
+      "id": 333,
+      "about":"I am a Person"
     },
     {
       "name": "Jack Boys",
       "pfp": "img1",
-      "id": 444
+      "id": 444,
+      "about":"I am a Person"
     },
     {
       "name": "John Doe",
       "pfp": "img5",
-      "id": 555
+      "id": 555,
+      "about":"I am a Person"
     }
   ],
   "chats": [
@@ -90,6 +94,10 @@
         },
         {
           "message": "I dey",
+          "sender": 111
+        },
+        {
+          "message": "hwfar",
           "sender": 111
         }
       ]

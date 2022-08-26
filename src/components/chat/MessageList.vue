@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col gap-2 py-4 px-12 h-full">
+  <div class="flex flex-col gap-1 py-4 px-16 h-full">
     <!-- encryption notice -->
     <div
       class="text-yellow-600 self-center bg-zinc-800/50 p-4 mb-4 rounded w-1/2 text-center"
     >
       <LockClosedIcon class="w-4 inline"></LockClosedIcon>
       Messages and calls are ende-to-end encrypted, No one outside of this chat,
-      not even Whatsapp, can read or listen to them. Click to learn more.
+      not even whotsopp, can read or listen to them. Click to learn more.
     </div>
 
     <!-- messages -->

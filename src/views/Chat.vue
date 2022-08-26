@@ -1,5 +1,6 @@
 <template>
   <main class="h-[100vh] flex flex-col">
+ 
     <TopBar :key="$route.params.id"></TopBar>
     <MessageList :key="$route.params.id"></MessageList>
     <TextInput></TextInput>

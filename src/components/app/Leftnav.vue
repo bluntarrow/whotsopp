@@ -1,19 +1,55 @@
 <template>
   <div
-    class="bg-zinc-900 h-[100vh] col-span-1 flex flex-col text-zinc-300 border-r border-zinc-500/50"
+    class="bg-zinc-900 h-[100vh] flex flex-col text-zinc-300 border-r relative border-zinc-500/50"
   >
-    <TopBar></TopBar>
+    <TopBar @openProfile="profile=true"></TopBar>
     <div class="p-2 pb-0">
       <SearchBar></SearchBar>
     </div>
     <div class="px-2 h-full overflow-auto">
       <ChatList></ChatList>
     </div>
+    <transition name="slide">
+      <StatusList v-if="status"></StatusList>
+    </transition>
+    <transition name="slide">
+      <Profile v-if="profile" @closeProfile="profile=false"></Profile>
+    </transition>
   </div>
 </template>
 <script setup>
+import StatusList from "./leftNav/StatusList.vue";
+import Profile from "./leftNav/Profile.vue";
 import ChatList from "./leftNav/ChatList.vue";
 import TopBar from "./leftNav/TopBar.vue";
 import SearchBar from "./leftNav/SearchBar.vue";
+import { useRoute } from "vue-router";
+import { ref, watch } from "vue";
+
+const route = useRoute();
+const status = ref(false);
+const profile = ref(false);
+
+const setStatus = () => {
+  if (route.name == "status") {
+    status.value = true;
+  } else {
+    status.value = false;
+  }
+};
+
+setStatus()
+watch(() => route.name, setStatus);
 </script>
 
+<style>
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(-100%);
+}
+</style>

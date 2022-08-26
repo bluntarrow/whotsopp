@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="chat in chats">
+    <li v-if="chats.length" v-for="chat in chats">
       <router-link
         :to="'/chat/' + chat.id"
         class="flex gap-3 items-center w-full py-3 px-2 rounded hover:bg-zinc-700/50"
@@ -28,6 +28,15 @@
       </router-link>
       <hr class="ml-16 border-zinc-800" />
     </li>
+      <li v-else class="animate-pulse py-3 px-2 flex gap-3" v-for="i in 3">
+          <div
+            class="h-10 w-10 bg-cover object-cover bg-zinc-700 rounded-full"
+          ></div>
+          <div class="grow">
+            <div class="bg-zinc-700 w-36 h-2 my-2"></div>
+            <div class="bg-zinc-700 w-20 h-2"></div>
+          </div>
+        </li>
   </ul>
 </template>
 <script setup>
