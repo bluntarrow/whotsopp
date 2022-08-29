@@ -30,16 +30,16 @@ import { LockClosedIcon } from "@heroicons/vue/24/solid";
 import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
+import { auth, chatsRef } from "../../data/db";
 
 const store = useStore();
 const route = useRoute();
 
-const messages = computed(()=>store.state.messages);
+const messages = ref([]);
 
 // fetch messages
-const fetchMessages = () => {
-  store.dispatch('fetchMessages', route.params.id)
-};
+
+chatsRef
 
 fetchMessages();
 watch(() => route.params.id, fetchMessages);

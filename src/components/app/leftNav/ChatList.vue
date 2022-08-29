@@ -2,7 +2,7 @@
   <ul>
     <li v-if="chats.length" v-for="chat in chats">
       <router-link
-        :to="'/chat/' + chat.id"
+        :to="'/chat/' + chat.userid"
         class="flex gap-3 items-center w-full py-3 px-2 rounded hover:bg-zinc-700/50"
       >
         <img
@@ -48,9 +48,10 @@ import { onAuthStateChanged } from "firebase/auth";
 const chats = ref([]);
 onAuthStateChanged(auth, (user) => {
   if (user) {
+    chats.value = [];
     onSnapshot(usersRef, (snapshot) => {
       snapshot.forEach((doc) => {
-        chats.value.push({ ...doc.data(), id: doc.id });
+        chats.value.push(doc.data());
       });
     });
   }
