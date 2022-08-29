@@ -1,8 +1,25 @@
 <script setup>
 import Leftnav from "./components/app/Leftnav.vue";
 import Rightnav from "./components/app/Rightnav.vue";
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import { useStore } from "vuex";
+import { useRouter, useRoute } from "vue-router";
+import { auth } from "./data/db.js";
+
+const router = useRouter();
+const route = useRoute();
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    if (route.name == "login" || route.name == "signup") {
+      router.replace({ path: "/chat" });
+    }
+  } else {
+    if (route.name != "login" || route.name != "signup") {
+      router.replace({ path: "/login" });
+    }
+  }
+});
 
 const store = useStore();
 
@@ -20,12 +37,15 @@ const closeInfo = () => {
         <RouterView></RouterView>
       </div>
       <transition name="slide">
-        <Rightnav v-if="info && $route.name!='status'" @closeInfo="closeInfo()"></Rightnav>
+        <Rightnav
+          v-if="info && $route.name != 'status'"
+          @closeInfo="closeInfo()"
+        ></Rightnav>
       </transition>
     </div>
   </div>
 </template>
-<style>
+<style scoped>
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.3s ease;

@@ -5,11 +5,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start" : "json-server --watch data/db.json --port 3001"
+    "start": "json-server --watch data/db.json --port 3001"
   },
   "dependencies": {
     "@headlessui/vue": "^1.6.7",
     "@heroicons/vue": "2",
+    "firebase": "^9.9.3",
     "swiper": "^8.3.2",
     "vue": "^3.2.25",
     "vue-router": "^4.1.1",
