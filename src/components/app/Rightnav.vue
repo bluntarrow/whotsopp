@@ -122,7 +122,7 @@ const route = useRoute();
 
 //fetch user
 const user = computed(()=>store.state.openedMessage);
-store.commit('fetchOpenedMessage', route.params.id)
+// store.commit('fetchOpenedMessage', route.params.id)
 
 const getImg = (imgurl) => {
   return new URL(`../../assets/img/${imgurl}.jpg`, import.meta.url);

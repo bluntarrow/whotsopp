@@ -27,20 +27,43 @@
 </template>
 <script setup>
 import { LockClosedIcon } from "@heroicons/vue/24/solid";
-import { computed, watch } from "vue";
-import { useStore } from "vuex";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { auth, chatsRef } from "../../data/db";
+import { query, where, onSnapshot, addDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 
-const store = useStore();
 const route = useRoute();
-
-const messages = ref([]);
 
 // fetch messages
 
-chatsRef
+const messages = ref([]);
 
-fetchMessages();
-watch(() => route.params.id, fetchMessages);
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const q = query(
+      chatsRef,
+      where("users", "in", [route.params.id, user.uid])
+    );
+
+    console.log(q);
+    messages.value = [];
+    onSnapshot(q, (snapshot) => {
+      if (snapshot.empty) {
+        console.log(snapshot.docs)
+        addDoc(chatsRef, { users: [route.params.id, user.uid], messages: [] });
+      } else {
+        console.log(snapshot.docs)
+        // snapshot.forEach((doc) => {
+        //   if (doc.length) {
+        //     messages.value.push(doc.data());
+        //   } else {
+        //     console.log(doc, "no doc");
+        //   }
+        // });
+      }
+    });
+  }
+});
+chatsRef;
 </script>

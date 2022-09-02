@@ -37,14 +37,22 @@ const route = useRoute();
 const store = useStore();
 
 // send messages
-const sendMessage = () => {
-  let payloads = {
-    messageurl: route.params.id,
-    messagesent: { message: message.value, sender: 111 },
-  };
-  if (message.value) {
-    store.dispatch("sendMessage", payloads);
-    message.value = "";
-  }
-};
+
+// const sendMessage = () => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       const q = query(
+//         chatsRef,
+//         where("users", "in", [route.params.id, user.uid])
+//       );
+//       let payloads = {
+//         messageurl: route.params.id,
+//         messagesent: { message: message.value, sender: 111 },
+//       };
+//       if (message.value) {
+
+//       }
+//     }
+//   });
+// };
 </script>

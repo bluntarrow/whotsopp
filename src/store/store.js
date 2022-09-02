@@ -26,42 +26,6 @@ const store = createStore({
       state.info = info;
     },
   },
-  actions: {
-    fetchUsers({ commit }) {
-      fetch("http://localhost:3001/users")
-        .then((res) => res.json())
-        .then((data) => commit("setUsers", data))
-        .catch((err) => console.log(err.message));
-    },
-
-    fetchOpenedMessage({ commit }, user) {
-      fetch(`http://localhost:3001/users/${user}`)
-        .then((res) => res.json())
-        .then((data) => commit("setOpenedMessage", data))
-        .catch((err) => console.log(err.message));
-    },
-
-    fetchMessages({ commit }, messageurl) {
-      fetch(`http://localhost:3001/chats/111${messageurl}`)
-        .then((res) => res.json())
-        .then((data) => commit("setMessages", data))
-        .catch((err) => console.log(err.message));
-    },
-
-    sendMessage({ commit, state }, payloads) {
-      commit("pushMessage", payloads.messagesent);
-      fetch(`http://localhost:3001/chats/111${payloads.messageurl}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          messages: state.messages.messages,
-        }),
-        headers: { "Content-Type": "application/Json" },
-      })
-        .then((res) => res.json())
-        .then((data) => commit("setMessages", data))
-        .catch((err) => console.log(err.message));
-    },
-  },
 });
 
 export default store;

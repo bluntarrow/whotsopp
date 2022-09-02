@@ -27,7 +27,7 @@ const route = useRoute();
 const store = useStore();
 
 const user = computed(() => store.state.openedMessage);
-store.dispatch("fetchOpenedMessage", route.params.id);
+// store.dispatch("fetchOpenedMessage", route.params.id);
 
 const openInfo=()=>{
   store.commit("toggleInfo", true);
