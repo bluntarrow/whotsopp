@@ -27,32 +27,52 @@ import { ref } from "vue";
 import { FaceSmileIcon, PaperClipIcon } from "@heroicons/vue/24/outline";
 import { MicrophoneIcon, PaperAirplaneIcon } from "@heroicons/vue/20/solid";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { getDocs, query, updateDoc, where } from "firebase/firestore";
+import { auth, chatsRef } from "../../data/db";
+import { onAuthStateChanged } from "firebase/auth";
 
 const focused = ref(false);
 
 const message = ref("");
 
 const route = useRoute();
-const store = useStore();
 
 // send messages
 
-// const sendMessage = () => {
-//   onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//       const q = query(
-//         chatsRef,
-//         where("users", "in", [route.params.id, user.uid])
-//       );
-//       let payloads = {
-//         messageurl: route.params.id,
-//         messagesent: { message: message.value, sender: 111 },
-//       };
-//       if (message.value) {
-
-//       }
-//     }
-//   });
-// };
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     const q = query(
+//       chatsRef,
+//       where("users", "array-contains-any", [route.params.id, user.uid])
+//     );
+//     getDocs(q).then((docs) => {
+//       docs.forEach((doc) => {
+//         console.log(doc);
+//       });
+//     });
+//   }
+// });
+const sendMessage = () => {
+  onAuthStateChanged(auth, (user) => {
+    if (user && message.value) {
+      const q = query(
+        chatsRef,
+        where("users", "array-contains-any", [route.params.id, user.uid])
+      );
+      getDocs(q).then((docs) => {
+        docs.forEach((doc) => {
+          console.log(doc);
+          updateDoc(doc.ref, {
+            messages: [
+              ...doc.data().messages,
+              { message: message.value, sender: user.uid },
+            ],
+          }).then(() => {
+            message.value = "";
+          });
+        });
+      });
+    }
+  });
+};
 </script>

@@ -12,7 +12,7 @@
     <!-- messages -->
     <div
       v-if="messages"
-      v-for="(message, i) in messages.messages"
+      v-for="(message, i) in messages"
       :key="i"
       :class="
         message.sender == $route.params.id
@@ -43,24 +43,22 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     const q = query(
       chatsRef,
-      where("users", "in", [route.params.id, user.uid])
+      where("users", "array-contains-any", [route.params.id, user.uid])
     );
 
     console.log(q);
-    messages.value = [];
     onSnapshot(q, (snapshot) => {
       if (snapshot.empty) {
-        console.log(snapshot.docs)
         addDoc(chatsRef, { users: [route.params.id, user.uid], messages: [] });
       } else {
-        console.log(snapshot.docs)
-        // snapshot.forEach((doc) => {
-        //   if (doc.length) {
-        //     messages.value.push(doc.data());
-        //   } else {
-        //     console.log(doc, "no doc");
-        //   }
-        // });
+        snapshot.forEach((doc) => {
+          if (doc.data().messages.length) {
+            console.log(doc.data().messages)
+            messages.value =doc.data().messages;
+          } else {
+            console.log("no doc");
+          }
+        });
       }
     });
   }
