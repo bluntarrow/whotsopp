@@ -43,20 +43,19 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     const q = query(
       chatsRef,
-      where("users", "array-contains-any", [route.params.id, user.uid])
+      where("users", "==", [route.params.id, user.uid])
     );
 
     console.log(q);
     onSnapshot(q, (snapshot) => {
+      console.log(snapshot.empty);
       if (snapshot.empty) {
         addDoc(chatsRef, { users: [route.params.id, user.uid], messages: [] });
       } else {
         snapshot.forEach((doc) => {
           if (doc.data().messages.length) {
-            console.log(doc.data().messages)
-            messages.value =doc.data().messages;
-          } else {
-            console.log("no doc");
+            console.log(doc.data().messages);
+            messages.value = doc.data().messages;
           }
         });
       }
