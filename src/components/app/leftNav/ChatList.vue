@@ -1,9 +1,11 @@
 <template>
   <ul>
+    
     <li v-if="chats.length" v-for="chat in chats">
       <router-link
         :to="'/chat/' + chat.userid"
         class="flex gap-3 items-center w-full py-3 px-2 rounded hover:bg-zinc-700/50"
+        v-if="chat.userid != currentuser"
       >
         <img
           :src="getImg(chat.pfp)"
@@ -26,7 +28,7 @@
           </div>
         </div>
       </router-link>
-      <hr class="ml-16 border-zinc-800" />
+      <hr class="ml-16 border-zinc-800" v-if="chat.userid != currentuser" />
     </li>
     <li v-else class="animate-pulse py-3 px-2 flex gap-3" v-for="i in 3">
       <div
@@ -46,7 +48,9 @@ import { ref } from "vue";
 import { onAuthStateChanged } from "firebase/auth";
 
 const chats = ref([]);
+const currentuser = ref(null);
 onAuthStateChanged(auth, (user) => {
+  currentuser.value = user.uid;
   if (user) {
     chats.value = [];
     onSnapshot(usersRef, (snapshot) => {
