@@ -10,7 +10,7 @@
         v-model="pfp"
         class="w-full bg-zinc-600 mb-4 px-6 py-2 rounded-md outline-zinc-400 text-zinc-400"
       >
-        <option v-for="i in 8" class="py-4" :value="'img' + 1">
+        <option v-for="i in 8" class="py-4" :value="'img' + i">
           img {{ i }}
         </option>
       </select>
