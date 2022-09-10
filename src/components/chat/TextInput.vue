@@ -57,7 +57,10 @@ const sendMessage = () => {
     if (user && message.value) {
       const q = query(
         chatsRef,
-        where("users", "==", [route.params.id, user.uid])
+        where("users", "array-contains-any", [
+          route.params.id + user.uid,
+          user.uid + route.params.id,
+        ])
       );
       getDocs(q).then((docs) => {
         docs.forEach((doc) => {
