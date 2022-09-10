@@ -12,18 +12,20 @@
       </div>
     </div>
 
-    <div class="h-full overflow-auto pt-6">
+    <div class="h-full overflow-auto pt-6" v-if="currentuser">
       <div class="flex flex-col items-center">
         <img
-          src="../../../assets/img/img8.jpg"
+          :src="getImg(currentuser.pfp)"
           alt="profile picture"
           class="h-48 w-48 rounded-full object-cover bg-cover"
         />
       </div>
       <div class="mt-8">
-        <h3 class="text-xs text-emerald-600 px-4">Your name</h3>
+        <h3 class="text-xs text-emerald-600 px-4">
+          Your Name
+        </h3>
         <div class="flex justify-between items-center mt-3 px-4">
-          <div>Fred</div>
+          <div>{{ currentuser.username }}</div>
           <div class="w-4">
             <PencilIcon
               class="cursor-pointer w-4 hover:text-zinc-400"
@@ -39,7 +41,7 @@
       <div class="mt-8">
         <h3 class="text-xs text-emerald-600 px-4">About</h3>
         <div class="flex justify-between items-center mt-3 px-4">
-          <div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
+          <div>{{ currentuser.about }}</div>
           <div class="w-4">
             <PencilIcon
               class="cursor-pointer w-4 hover:text-zinc-400"
@@ -59,10 +61,30 @@
 </template>
 <script setup>
 import { ArrowLeftIcon, PencilIcon } from "@heroicons/vue/20/solid";
-import { auth } from "../../../data/db.js";
-import { signOut } from "firebase/auth";
+import { auth, usersRef } from "../../../data/db.js";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { ref } from "vue";
+import { getDocs, query, where } from "firebase/firestore";
 
 const logout = () => {
-  signOut(auth)
+  signOut(auth);
+};
+const currentuser = ref(null);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log(user)
+    const q = query(usersRef, where("userid", "==", user.uid));
+    getDocs(q).then((docs) => {
+      docs.forEach((doc) => {
+        console.log(doc.data());
+        currentuser.value = doc.data();
+      });
+    });
+  }
+});
+
+const getImg = (imgurl) => {
+  return new URL(`../../../assets/img/${imgurl}.jpg`, import.meta.url);
 };
 </script>

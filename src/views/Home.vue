@@ -22,8 +22,8 @@
       </div>
       <h1 class="text-3xl mb-4">Keep your phone connected</h1>
       <p class="w-1/2 text-center">
-        Whatsapp connects with your phone to sync messages. To reduce data usage
-        connect your phone to Wi-Fi.
+        Whotsopp does not connect with your phone to sync messages. To reduce data usage
+        connect your laptop to Wi-Fi.
       </p>
     </div>
   </div>

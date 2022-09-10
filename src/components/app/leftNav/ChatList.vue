@@ -20,12 +20,12 @@
         <div
           class="text-[10px] font-semibold flex flex-col justify-end items-end"
         >
-          <span class="text-emerald-500">12:11pm</span>
-          <div
+          <span class="text-zinc-500">12:11pm</span>
+          <!-- <div
             class="bg-emerald-500 text-zinc-100 p-0.5 w-max min-w-[18px] text-center rounded-full mt-0.5"
           >
             104
-          </div>
+          </div> -->
         </div>
       </router-link>
       <hr class="ml-16 border-zinc-800" v-if="chat.userid != currentuser" />
@@ -52,8 +52,8 @@ const currentuser = ref(null);
 onAuthStateChanged(auth, (user) => {
   currentuser.value = user.uid;
   if (user) {
-    chats.value = [];
     onSnapshot(usersRef, (snapshot) => {
+      chats.value = [];
       snapshot.forEach((doc) => {
         chats.value.push(doc.data());
       });

@@ -5,7 +5,7 @@
         :src="getImg(user.pfp)"
         class="h-8 w-8 bg-cover cursor-pointer object-cover rounded-full"
       />
-      <div class="cursor-pointer">{{ user.name }}</div>
+      <div class="cursor-pointer">{{ user.username }}</div>
     </div>
     <div v-else class="h-8 w-8 bg-zinc-600 rounded-full animate-pulse"></div>
     <div class="flex items-center gap-4">
@@ -19,19 +19,29 @@ import {
   MagnifyingGlassIcon,
   EllipsisVerticalIcon,
 } from "@heroicons/vue/24/solid";
+import { getDocs, query, where } from "firebase/firestore";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { usersRef } from "../../data/db.js";
 
 const route = useRoute();
 const store = useStore();
 
-const user = computed(() => store.state.openedMessage);
+const user = ref(null);
+const q = query(usersRef, where("userid", "==", route.params.id));
+getDocs(q).then((docs) => {
+  docs.forEach((doc) => {
+    console.log(doc.data())
+    user.value = doc.data();
+  });
+});
+
 // store.dispatch("fetchOpenedMessage", route.params.id);
 
-const openInfo=()=>{
+const openInfo = () => {
   store.commit("toggleInfo", true);
-}
+};
 
 const getImg = (imgurl) => {
   return new URL(`../../assets/img/${imgurl}.jpg`, import.meta.url);

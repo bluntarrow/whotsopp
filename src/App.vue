@@ -17,6 +17,7 @@ auth.onAuthStateChanged((user) => {
   } else {
     if (route.name != "login" || route.name != "signup") {
       router.replace({ path: "/login" });
+      store.commit("toggleInfo", false);
     }
   }
 });

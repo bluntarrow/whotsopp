@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div class="h-full overflow-auto pt-6">
+    <div class="h-full overflow-auto pt-6" v-if="user">
       <div class="flex flex-col items-center justify-center h-64">
         <img
           :src="getImg(user.pfp)"
@@ -20,8 +20,8 @@
           class="h-40 w-40 rounded-full object-cover bg-cover"
         />
         <h3 class="mt-3 text-lg text-center">
-          {{user.name}}
-          <h5 class="text-zinc-300/50 text-sm ">Busy</h5>
+          {{ user.name }}
+          <h5 class="text-zinc-300/50 text-sm">Busy</h5>
         </h3>
       </div>
       <hr class="border-4 border-black/25" />
@@ -29,7 +29,7 @@
       <div class="px-6 py-2">
         <h6 class="text-xs text-zinc-300/50">About</h6>
         <p class="text-sm mt-1">
-          {{user.about}}
+          {{ user.about }}
         </p>
       </div>
       <hr class="border-4 border-black/25" />
@@ -82,8 +82,11 @@
       <hr class="border-4 border-black/25" />
 
       <div class="px-6 py-2 text-zinc-400">
-        <ul>
-          <li v-for="action in dangers" class="flex text-sm items-center py-4 text-red-600">
+        <ul v-if="user">
+          <li
+            v-for="action in dangers"
+            class="flex text-sm items-center py-4 text-red-600 cursor-pointer"
+          >
             <div class="h-4">
               <component :is="action.icon" class="h-4"></component>
             </div>
@@ -112,22 +115,36 @@ import {
   TrashIcon,
 } from "@heroicons/vue/20/solid";
 import { Switch } from "@headlessui/vue";
-import { ref,computed } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { getDocs, query, where } from "firebase/firestore";
+import { usersRef } from "../../data/db";
 
-const store = useStore();
 const route = useRoute();
 
-
 //fetch user
-const user = computed(()=>store.state.openedMessage);
-// store.commit('fetchOpenedMessage', route.params.id)
+const user = ref(null);
+const dangers = ref(null);
+
+const q = query(usersRef, where("userid", "==", route.params.id));
+getDocs(q).then((docs) => {
+  docs.forEach((doc) => {
+    console.log(doc.data());
+    user.value = doc.data();
+  });
+  dangers.value = [
+    { title: "Block " + user.value.username, icon: NoSymbolIcon },
+    { title: "Report " + user.value.username, icon: HandThumbDownIcon },
+    {
+      title: "Delete chat",
+      icon: TrashIcon,
+    },
+  ];
+});
 
 const getImg = (imgurl) => {
   return new URL(`../../assets/img/${imgurl}.jpg`, import.meta.url);
 };
-
 
 //lists
 const others = [
@@ -144,14 +161,6 @@ const others = [
     end: null,
     message: "Messages are end to end encrypted. Click to verify",
     icon: LockClosedIcon,
-  },
-];
-const dangers = [
-  { title: "Block Name", icon: NoSymbolIcon },
-  { title: "Report Name", icon: HandThumbDownIcon},
-  {
-    title: "Delete chat",
-    icon: TrashIcon,
   },
 ];
 const enabled = ref(false);
