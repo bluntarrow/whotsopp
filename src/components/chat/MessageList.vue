@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1 py-4 px-16 h-full">
+  <div class="flex flex-col gap-1 py-4 px-16 h-full overflow-auto">
     <!-- encryption notice -->
     <div
       class="text-yellow-600 self-center bg-zinc-800/50 p-4 mb-4 rounded w-1/2 text-center"
@@ -52,6 +52,7 @@ onAuthStateChanged(auth, (user) => {
     console.log(q);
     onSnapshot(q, (snapshot) => {
       if (snapshot.empty) {
+        console.log('empty');
         addDoc(chatsRef, {
           users: [route.params.id + user.uid, user.uid + route.params.id],
           messages: [],
